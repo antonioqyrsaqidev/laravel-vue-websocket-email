@@ -2,8 +2,11 @@
 
 namespace App\Exceptions;
 
+use Exception;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -22,20 +25,40 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontFlash = [
-        'current_password',
         'password',
         'password_confirmation',
     ];
 
     /**
-     * Register the exception handling callbacks for the application.
+     * Report or log an exception.
      *
+     * @param  \Exception  $exception
      * @return void
      */
-    public function register()
+    public function report(Exception $exception)
     {
-        $this->reportable(function (Throwable $e) {
-            //
-        });
+        parent::report($exception);
+    }
+
+    /**
+     * Render an exception into an HTTP response.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Exception  $exception
+     * @return \Illuminate\Http\Response
+     */
+    public function render($request, Exception $exception)
+    {
+        if ($exception instanceof TokenInvalidException) {
+            return response()->json(['error'=>'Token is Invalid'],400);
+        }
+
+        elseif ($exception instanceof TokenExpiredException) {
+            return response()->json(['error'=>"Token is Expired"],400);
+        }
+        elseif ($exception instanceof JWTException) {
+            return response()->json(['error'=>"There is problem your token"],400);
+        }
+        return parent::render($request, $exception);
     }
 }
