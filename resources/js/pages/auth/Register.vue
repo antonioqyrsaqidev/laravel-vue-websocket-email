@@ -68,7 +68,8 @@
 </template>
 
 <script>
-import router from "vue-router";
+import Cookies from 'js-cookie'
+
 export default {
   name: "Register",
   data() {
@@ -76,18 +77,18 @@ export default {
       errors: [],
       name: "",
       email: "",
-      password: "", //Input incoming data (model="password")
-      password_confirmation: "", //Input incoming data (model="password")
+      password: "",
+      password_confirmation: "",
     };
   },
   methods: {
     async register() {
       this.checkForm();
       if(this.errors.length>0){
-        console.log(this.errors)
-        alert();
         return false;
       }
+
+      // API for auth/register
       await axios
         .post(
           "api/auth/register/",
@@ -103,15 +104,15 @@ export default {
           }
         )
         .then((response) => {
-            console.log(response.data);
-
-          if(response.data.success) {
-            this.$router.push({name: 'verify-email'});}
+          Cookies.set('token', response.data.access_token, { expires: 365 })
+          this.$session.set('jwt', response.data.access_token)
+          this.$router.push({ name: `verify-email`, params: { query: response.data.access_token} });
         })
         .catch((error) => {
           console.error(error.response.data.message);
         });
     },
+
     checkForm: function (e) {
       this.errors = [];
 

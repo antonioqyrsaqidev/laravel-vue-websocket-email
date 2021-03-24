@@ -56,12 +56,11 @@ export default {
     return {
       errors: [],
       email: "",
-      password: "", //Input incoming data (model="password")
+      password: "",
     };
   },
   methods: {
     async login() {
-
       await axios
         .post(
           "api/auth/login/",
@@ -75,7 +74,7 @@ export default {
           }
         )
         .then((response) => {
-          console.log(response.data.message);
+          this.$router.push({name: `welcome`})
         })
         .catch((error) => {
           console.error(error.response.data.message);

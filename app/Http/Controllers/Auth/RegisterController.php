@@ -69,9 +69,26 @@ class RegisterController extends Controller
             'password' => Hash::make($request['password']),
         ]);
         event(new Registered($user));
+        $credentials = request(['email', 'password']);
+
+        if (!$token = auth('api')->attempt($credentials)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        return $this->respondWithToken($token);
+
         return response()->json([
             'success'=>true,
             'message'=>'Register success'
+        ]);
+    }
+        protected function respondWithToken($token)
+    {
+        return response()->json([
+            'success'=>true,
+            'message'=>'Register success',
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth()->factory()->getTTL() * 60
         ]);
     }
 }
