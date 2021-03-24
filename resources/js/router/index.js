@@ -7,6 +7,8 @@ import DashBoard from '../pages/Dashboard';
 import VerifyEmail from '../pages/auth/VerifyEmail';
 import ForgotPassword from '../pages/auth/ForgotPassword';
 import ForgotPasswordEmail from '../pages/auth/ForgotPasswordEmail';
+import Login from '../pages/auth/Login';
+import Register from '../pages/auth/Register';
 
 const routes = [
     {
@@ -18,6 +20,16 @@ const routes = [
         path: '/asd',
         component: DashBoard,
         name: 'asd'
+    },
+    {
+        path: '/login',
+        component: Login,
+        name: 'login'
+    },
+    {
+        path: '/register',
+        component: Register,
+        name: 'register'
     },
 
     {

@@ -56,9 +56,9 @@ class Handler extends ExceptionHandler
         elseif ($exception instanceof TokenExpiredException) {
             return response()->json(['error'=>"Token is Expired"],400);
         }
-        elseif ($exception instanceof JWTException) {
-            return response()->json(['error'=>"There is problem your token"],400);
-        }
+        // elseif ($exception instanceof JWTException) {
+        //     return response()->json(['error'=>"There is problem your asdf token"],400);
+        // }
         return parent::render($request, $exception);
     }
 }
