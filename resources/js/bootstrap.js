@@ -1,5 +1,23 @@
 
 window._ = require('lodash');
+import Pusher from "pusher-js"
+import Echo from "laravel-echo"
+
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: process.env.MIX_PUSHER_APP_KEY,
+    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+    encrypted: true
+});
+console.log("before", Echo)
+window.Echo.private('message')
+  .listen('MessageSent', (e) => {
+    console.log("message:",e);
+    this.messages.push({
+      message: e.message.message,
+      user: e.user
+    });
+  });
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
