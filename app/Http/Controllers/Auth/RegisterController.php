@@ -81,7 +81,14 @@ class RegisterController extends Controller
             'message'=>'Register success'
         ]);
     }
-        protected function respondWithToken($token)
+
+    /**
+     * Generate token expires and return value
+     *
+     * @param  array  $data
+     * @return $token
+     */
+    protected function respondWithToken($token)
     {
         return response()->json([
             'success'=>true,

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-use App\User;
 use App\Events\MessageSent;
 class AuthController extends Controller
 {
@@ -30,8 +29,13 @@ class AuthController extends Controller
         if (!$token = auth('api')->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-        $dddd = auth()->user();
-        broadcast(new MessageSent($dddd))->toOthers();
+
+        // get user Info
+        $user = auth()->user();
+
+        // transferring message event with broadcast
+        broadcast(new MessageSent($user))->toOthers();
+
         return $this->respondWithToken($token);
     }
 

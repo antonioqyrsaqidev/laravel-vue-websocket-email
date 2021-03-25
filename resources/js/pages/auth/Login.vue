@@ -49,7 +49,6 @@
 </template>
 
 <script>
-import router from "vue-router";
 export default {
   name: "Login",
   data() {
@@ -60,6 +59,7 @@ export default {
     };
   },
   methods: {
+    // API for auth/login
     async login() {
       await axios
         .post(

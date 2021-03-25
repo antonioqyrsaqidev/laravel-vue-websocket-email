@@ -56,5 +56,13 @@
 <script>
 export default {
   name: "Navbar",
+  mounted() {
+    window.Echo.private("message").listen("MessageSent", (e) => {
+      this.messages.push({
+        message: e.message.message,
+        user: e.user,
+      });
+    });
+  },
 };
 </script>

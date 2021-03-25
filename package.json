@@ -30,6 +30,7 @@
         "laravel-echo": "^1.10.0",
         "prettier": "^2.2.1",
         "pusher-js": "^7.0.3",
+        "socket.io-client": "^4.0.0",
         "vue-cookies": "^1.7.4",
         "vue-resource": "^1.5.2",
         "vue-router": "^3.0.2",
